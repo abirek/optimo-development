@@ -23,8 +23,4 @@ class ListFibonacciNumbers(Resource):
         return {'results': tuple((v[1] for v in results))}
 
 
-api.add_resource(ListFibonacciNumbers, '/get-numbers')
-
-
-if __name__ == '__main__':
-    app.run()
+api.add_resource(ListFibonacciNumbers, '/numbers')
