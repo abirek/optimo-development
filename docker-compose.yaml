@@ -13,14 +13,16 @@ services:
       - MYSQL_PASSWORD=password
       - MYSQL_DATABASE=app
   rabbitmq:
-    image: rabbitmq:3.8-management
+    image: rabbitmq:3.8-management-alpine
     ports:
       - "5672:5672"
       - "15672:15672"
+    volumes:
+    - ./rabbitmq_definitions.json:/opt/definitions.json:ro
+    - ./rabbitmq_advanced.config:/etc/rabbitmq/advanced.config:ro
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
-      - RABBITMQ_DEFAULT_VHOST="/"
 #  api:
 #    build: .
 #    ports:

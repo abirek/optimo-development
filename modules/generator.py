@@ -32,8 +32,3 @@ class FibonacciGenerator:
             finally:
                 if connector and connector.connection:
                     connector.close()
-
-
-gen = FibonacciGenerator.get_fibbonacci_generator()
-for _ in range(6):
-    print(next(gen))
