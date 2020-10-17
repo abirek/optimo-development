@@ -12,7 +12,7 @@ class FibonacciGenerator:
         f1 = f2 = 1
         while True:
             yield f2
-            f1, f2 = f2, f1 + f2
+            f2, f1 = f1, f1 + f2
 
     def run(self):
         generator = self.get_fibbonacci_generator()
@@ -32,3 +32,8 @@ class FibonacciGenerator:
             finally:
                 if connector and connector.connection:
                     connector.close()
+
+
+gen = FibonacciGenerator.get_fibbonacci_generator()
+for _ in range(6):
+    print(next(gen))
