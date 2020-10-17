@@ -8,7 +8,7 @@ services:
     volumes:
       - ./init.sql:/data/application/init.sql
     environment:
-      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_ROOT_PASSWORD=secret-root-password
       - MYSQL_USER=app_user
       - MYSQL_PASSWORD=password
       - MYSQL_DATABASE=app
