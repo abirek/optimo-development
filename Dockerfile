@@ -5,16 +5,16 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
     && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
+COPY . /app
 WORKDIR /app
 
-#ENV FLASK_APP=app.py
-#ENV FLASK_RUN_HOST=0.0.0.0
-
-COPY requirements.txt requirements.txt
-
 RUN apk update && apk add bash
-RUN apk add --no-cache gcc openssl-dev libffi-dev musl-dev linux-headers && pip install -r requirements.txt
-
-EXPOSE 5000
+RUN apk add --no-cache gcc \
+    openssl-dev \
+    libffi-dev \
+    musl-dev \
+    linux-headers \
+    mariadb-connector-c-dev && \
+    pip install -r requirements.txt
 
 CMD ["/bin/bash"]

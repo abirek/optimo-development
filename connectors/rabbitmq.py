@@ -5,11 +5,16 @@ from pika.adapters.blocking_connection import BlockingChannel
 
 
 class RabbitMQConnector:
-    def __init__(self):
-        self.__parameters = ConnectionParameters(host="localhost",
-                                                 port=5672,
-                                                 credentials=PlainCredentials("guest", "guest"),
-                                                 virtual_host="/")
+    def __init__(self,
+                 username: str,
+                 password: str,
+                 host: str = "rabbitmq",
+                 port: int = 5672,
+                 vhost: str = "/"):
+        self.__parameters = ConnectionParameters(host=host,
+                                                 port=port,
+                                                 credentials=PlainCredentials(username, password),
+                                                 virtual_host=vhost)
         self.connection: Optional[BlockingConnection] = None
         self.channel: Optional[BlockingChannel] = None
 

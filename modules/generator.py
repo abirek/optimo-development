@@ -17,10 +17,9 @@ class FibonacciGenerator:
     def run(self):
         generator = self.get_fibbonacci_generator()
         connector = None
-
         while True:
             try:
-                connector = RabbitMQConnector()
+                connector = RabbitMQConnector(username="guest", password="guest")
                 connector.connect()
                 message = next(generator)
                 connector.channel.basic_publish(exchange='', routing_key='fibonacci_queue', body=str(message).encode())

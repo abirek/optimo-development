@@ -8,14 +8,15 @@ class Ingestor:
 
         def callback(ch, method, properties, body):
             body = body.decode()
-            connector = MySQLConnector('app_user', 'password', '127.0.0.1', 3307, 'app')
+            connector = MySQLConnector(username="app_user", password="password", database="app")
             engine = connector.get_engine()
-            connector.insert(engine, body)
+            with engine.connect() as connection:
+                connection.execute(f"INSERT INTO fibonacci (number) VALUES ({body});")
             print(f" [x] Inserted {body}")
 
         connector = None
         try:
-            connector = RabbitMQConnector()
+            connector = RabbitMQConnector(username="guest", password="guest")
             connector.connect()
             connector.channel.basic_consume(queue='fibonacci_queue', on_message_callback=callback, auto_ack=True)
 

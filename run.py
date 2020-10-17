@@ -20,9 +20,11 @@ def startingestor():
 
 
 @click.command()
-def startapi():
+@click.option('--host', default="0.0.0.0", help='')
+@click.option('--port', default=5000, help='')
+def startapi(host, port):
     click.echo('Starting REST API')
-    app.run()
+    app.run(host=host, port=port)
     # Application().run(app)
 
 

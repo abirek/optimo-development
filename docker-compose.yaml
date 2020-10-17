@@ -3,7 +3,7 @@ services:
   mysql:
     image: mysql:8.0
     ports:
-      - "3307:3306"
+      - "3306:3306"
     command: --init-file /data/application/init.sql
     volumes:
       - ./init.sql:/data/application/init.sql
@@ -22,10 +22,21 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
-#  api:
-#    build: .
-#    ports:
-#      - "5000:5000"
-#    depends_on:
-#      - "mysql"
-#      - "rabbitmq"
+  api:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - "mysql"
+    command: dockerize -wait tcp://mysql:3306 -timeout 60s python run.py startapi
+  ingest:
+    build: .
+    depends_on:
+      - "mysql"
+      - "rabbitmq"
+    command: dockerize -wait tcp://mysql:3306 -wait tcp://rabbitmq:5672 -timeout 60s python run.py startingestor
+  generator:
+    build: .
+    depends_on:
+      - "rabbitmq"
+    command: dockerize -wait tcp://rabbitmq:5672 -timeout 60s python run.py startgenerator --delay 10

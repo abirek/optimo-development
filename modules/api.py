@@ -4,8 +4,8 @@ from flaskext.mysql import MySQL
 
 app = Flask(__name__)
 
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-app.config['MYSQL_DATABASE_PORT'] = 3307
+app.config['MYSQL_DATABASE_HOST'] = 'mysql'
+app.config['MYSQL_DATABASE_PORT'] = 3306
 app.config['MYSQL_DATABASE_USER'] = 'app_user'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'password'
 app.config['MYSQL_DATABASE_DB'] = 'app'
