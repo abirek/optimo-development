@@ -2,20 +2,21 @@ import click
 # from gunicorn.app.base import Application
 
 from modules.api import app
-from modules.generator import run
+from modules.generator import FibonacciGenerator
 
 
 @click.command()
 @click.option('--delay', default=60, help='')
 def startgenerator(delay):
     click.echo('Starting generator')
-    run()
+    generator = FibonacciGenerator(delay)
+    generator.run()
 
 
 @click.command()
 def startingestor():
     click.echo('Starting ingestor')
-    run()
+    # run()
 
 
 @click.command()
