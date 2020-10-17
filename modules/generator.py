@@ -24,6 +24,7 @@ class FibonacciGenerator:
                 connector.connect()
                 message = next(generator)
                 connector.channel.basic_publish(exchange='', routing_key='fibonacci_queue', body=str(message).encode())
+                print(f'Produced {message} to RabbitMQ')
                 time.sleep(self.__delay)
             except Exception as e:
                 print(e)
