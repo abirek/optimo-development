@@ -28,7 +28,7 @@ class Ingestor:
         except:
             raise
         finally:
-            if connector and connector.connection:
+            if connector:
                 await connector.close()
 
     async def insert_to_db(self, body: bytes):

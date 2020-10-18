@@ -36,7 +36,7 @@ class FibonacciGenerator:
             except:
                 raise
             finally:
-                if connector and connector.connection:
+                if connector:
                     await connector.close()
 
     def run(self):

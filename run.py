@@ -1,5 +1,4 @@
 import click
-# from gunicorn.app.base import Application
 from configs.api import ApiConfig
 from configs.generator import GeneratorConfig
 from configs.ingestor import IngestorConfig
@@ -28,7 +27,6 @@ def startapi():
     config = ApiConfig()
     app = create_app(config)
     app.run(host="0.0.0.0", port=config.port)
-    # Application().run(app)
 
 
 @click.group()

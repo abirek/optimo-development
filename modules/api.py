@@ -8,7 +8,7 @@ def create_app(config: Config):
     app = Quart(__name__)
 
     async def get_numbers():
-        query = f'SELECT number FROM {config.database_schema}.{config.database_table}'
+        query = f'SELECT number FROM {config.database_table}'
         connector = MySQLConnector(username=config.database_username,
                                    password=config.database_password,
                                    schema=config.database_schema,
