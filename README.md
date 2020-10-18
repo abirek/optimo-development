@@ -11,7 +11,7 @@ You can change it but then you need to change it also in the *docker-compose.yam
 in *api*, *ingest* and *generator* sections.
 
 After the image is successfully built you can start the microservice by executing
-the following *docker* command:
+the following command:
 
 `docker-compose up -d`
 
