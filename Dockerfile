@@ -15,6 +15,7 @@ RUN apk add --no-cache gcc \
     musl-dev \
     linux-headers \
     mariadb-connector-c-dev && \
+    pip install --upgrade pip && \
     pip install -r requirements.txt
 
 CMD ["/bin/bash"]

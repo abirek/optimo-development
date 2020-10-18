@@ -1,6 +1,7 @@
 CREATE DATABASE IF NOT EXISTS app;
 USE app;
-CREATE TABLE IF NOT EXISTS app.fibonacci (
+DROP TABLE IF EXISTS app.fibonacci;
+CREATE TABLE app.fibonacci (
   id INT NOT NULL AUTO_INCREMENT,
   number INT NOT NULL,
   PRIMARY KEY (id));

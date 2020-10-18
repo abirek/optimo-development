@@ -23,20 +23,20 @@ services:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
   api:
-    build: .
+    image: abirek-optimo-development:1.0
     ports:
       - "5000:5000"
     depends_on:
       - "mysql"
     command: dockerize -wait tcp://mysql:3306 -timeout 60s python run.py startapi
   ingest:
-    build: .
+    image: abirek-optimo-development:1.0
     depends_on:
       - "mysql"
       - "rabbitmq"
     command: dockerize -wait tcp://mysql:3306 -wait tcp://rabbitmq:5672 -timeout 60s python run.py startingestor
   generator:
-    build: .
+    image: abirek-optimo-development:1.0
     depends_on:
       - "rabbitmq"
     command: dockerize -wait tcp://rabbitmq:5672 -timeout 60s python run.py startgenerator --delay 10
