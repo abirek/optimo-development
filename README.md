@@ -15,7 +15,7 @@ the following command:
 
 `docker-compose up -d`
 
-Once the microservice is up and running you can get currently generated fibonacci numbers
+It will take a short while for the need to setup *mysql* and *rabbitmq* services. Once the microservice is up and running you can get currently generated fibonacci numbers
 by sending a HTTP GET request to the endpoint 
 
 `http://127.0.0.1:5000/numbers`
