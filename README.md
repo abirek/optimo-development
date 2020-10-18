@@ -1,7 +1,7 @@
 # Optimo Development Microservice
 
 
-To run the microservice you first need to build image of the current code repository.
+To run the microservice you need to build image of the current code repository first.
 You can do it by executing the following *docker* command:
 
 `docker build . --tag abirek-optimo-development:1.0`
