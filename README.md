@@ -1,10 +1,27 @@
 # optimo-development
 
 
+To run the microservice you first need to build image of the current code repository.
+You can do it by executing the following *docker* command:
+
 `docker build . --tag abirek-optimo-development:1.0`
+
+The output image name and tag will be *abirek-optimo-development:1.0*.
+You can change it but then you need to change it in the *docker-compose.yaml* file 
+in *api*, *ingest* and *generator* sections as well.
+
+After the image is successfully built you can start the microservice by executing
+the following *docker* command:
 
 `docker-compose up -d`
 
-`curl http://127.0.0.1:5000/numbers`
+Once the microservice is up and running you can get currently generated fibonacci numbers
+by sending a HTTP GET request to the endpoint 
+
+`http://127.0.0.1:5000/numbers`
+
+for example using the *curl* tool.
+
+If you want to stop the microservice just execute:
 
 `docker-compose stop`
