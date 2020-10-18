@@ -15,12 +15,17 @@ the following command:
 
 `docker-compose up -d`
 
-It will take a short while for the need to setup *mysql* and *rabbitmq* services. Once the microservice is up and running you can get currently generated fibonacci numbers
+It will take a short while for the need to setup *mysql* and *rabbitmq* services. 
+Once the microservice is up and running you can get currently generated fibonacci numbers
 by sending a HTTP GET request to the endpoint 
 
 `http://127.0.0.1:5000/numbers`
 
 for example using the *curl* tool.
+
+By default fibonacci numbers are generated every 30 seconds. 
+You can change it by setting the GENERATOR_DELAY environment variable
+in *generator* section of *docker-compose.yaml* file a different value.
 
 If you want to stop the microservice just execute:
 
