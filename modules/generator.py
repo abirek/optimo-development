@@ -3,10 +3,12 @@ import asyncio
 
 from configs.base import Config
 from connectors.rabbitmq import RabbitMQConnector
+from loggermixin import LoggerMixin
 
 
-class FibonacciGenerator:
+class FibonacciGenerator(LoggerMixin):
     def __init__(self, config: Config):
+        super().__init__()
         self.__config: Config = config
 
     @staticmethod
@@ -31,12 +33,15 @@ class FibonacciGenerator:
                 message = str(next(generator))
                 await connector.channel.default_exchange.publish(message=aio_pika.Message(body=message.encode()),
                                                                  routing_key=self.__config.rabbitmq_queue)
-                print(f'Produced {message} to RabbitMQ')
+                self.logger.info(f'Message published: "{message}"')
+
+                await connector.close()
+                self.logger.info(f'Sleeping for {self.__config.delay} seconds...')
                 await asyncio.sleep(self.__config.delay)
-            except:
+            except Exception:
                 raise
             finally:
-                if connector:
+                if connector and connector.connection:
                     await connector.close()
 
     def run(self):

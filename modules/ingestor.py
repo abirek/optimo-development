@@ -3,10 +3,12 @@ import asyncio
 from configs.base import Config
 from connectors.mysql import MySQLConnector
 from connectors.rabbitmq import RabbitMQConnector
+from loggermixin import LoggerMixin
 
 
-class Ingestor:
+class Ingestor(LoggerMixin):
     def __init__(self, config: Config):
+        super().__init__()
         self.__config: Config = config
 
     async def __run(self, loop):
@@ -20,12 +22,12 @@ class Ingestor:
             await connector.connect(loop)
             queue = await connector.channel.declare_queue(self.__config.rabbitmq_queue, durable=True)
 
-            print(' [*] Waiting for messages. To exit press CTRL+C')
+            self.logger.info('Waiting for messages...')
             async with queue.iterator() as queue_iter:
                 async for message in queue_iter:
                     async with message.process():
                         await self.insert_to_db(message.body)
-        except:
+        except Exception:
             raise
         finally:
             if connector:
@@ -44,7 +46,7 @@ class Ingestor:
         await engine.connect()
         await engine.execute(query=query)
         await engine.disconnect()
-        print(f" [x] Inserted {body}")
+        self.logger.info(f'Inserted to database: {body}')
 
     def run(self):
         loop = asyncio.get_event_loop()
