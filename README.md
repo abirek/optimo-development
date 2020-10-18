@@ -25,3 +25,7 @@ for example using the *curl* tool.
 If you want to stop the microservice just execute:
 
 `docker-compose stop`
+
+To start the microservice once again execute
+
+`docker-compose start`
