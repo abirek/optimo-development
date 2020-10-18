@@ -8,7 +8,7 @@ class RabbitMQConnector:
     def __init__(self,
                  username: str,
                  password: str,
-                 host: str = "rabbitmq",
+                 host: str = "localhost",
                  port: int = 5672,
                  vhost: str = "/"):
         self.__parameters = ConnectionParameters(host=host,
@@ -30,9 +30,3 @@ class RabbitMQConnector:
         if self.connection:
             self.connection.close()
             self.connection = None
-    #
-    # def __enter__(self):
-    #     self.connect()
-    #
-    # def __exit__(self, exc_type, exc_val, exc_tb):
-    #     self.close()

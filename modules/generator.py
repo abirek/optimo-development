@@ -1,11 +1,12 @@
 import time
 
+from configs.base import Config
 from connectors.rabbitmq import RabbitMQConnector
 
 
 class FibonacciGenerator:
-    def __init__(self, delay: int):
-        self.__delay: int = delay
+    def __init__(self, config: Config):
+        self.__config: Config = config
 
     @staticmethod
     def get_fibbonacci_generator():
@@ -19,15 +20,18 @@ class FibonacciGenerator:
         connector = None
         while True:
             try:
-                connector = RabbitMQConnector(username="guest", password="guest")
+                connector = RabbitMQConnector(username=self.__config.rabbitmq_username,
+                                              password=self.__config.rabbitmq_password,
+                                              host=self.__config.rabbitmq_host,
+                                              port=self.__config.rabbitmq_port,
+                                              vhost=self.__config.rabbitmq_vhost)
                 connector.connect()
                 message = next(generator)
-                connector.channel.basic_publish(exchange='', routing_key='fibonacci_queue', body=str(message).encode())
+                connector.channel.basic_publish(exchange='', routing_key=self.__config.rabbitmq_queue, body=str(message).encode())
                 print(f'Produced {message} to RabbitMQ')
-                time.sleep(self.__delay)
+                time.sleep(self.__config.delay)
             except Exception as e:
-                print(e)
-                break
+                raise
             finally:
                 if connector and connector.connection:
                     connector.close()

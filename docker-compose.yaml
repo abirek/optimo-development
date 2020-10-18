@@ -15,6 +15,7 @@ services:
   rabbitmq:
     image: rabbitmq:3.8-management-alpine
     ports:
+      - "5672:5672"
       - "15672:15672"
     volumes:
     - ./rabbitmq_definitions.json:/opt/definitions.json:ro
@@ -29,14 +30,39 @@ services:
     depends_on:
       - "mysql"
     command: dockerize -wait tcp://mysql:3306 -timeout 60s python run.py startapi
+    environment:
+      - API_PORT=5000
+      - API_DATABASE_USERNAME=app_user
+      - API_DATABASE_PASSWORD=password
+      - API_DATABASE_HOST=mysql
+      - API_DATABASE_SCHEMA=app
+      - API_DATABASE_PORT=3306
+      - API_DATABASE_TABLE=fibonacci
   ingest:
     image: abirek-optimo-development:1.0
     depends_on:
       - "mysql"
       - "rabbitmq"
     command: dockerize -wait tcp://mysql:3306 -wait tcp://rabbitmq:5672 -timeout 60s python run.py startingestor
+    environment:
+      - INGESTOR_DATABASE_USERNAME=app_user
+      - INGESTOR_DATABASE_PASSWORD=password
+      - INGESTOR_DATABASE_HOST=mysql
+      - INGESTOR_DATABASE_PORT=3306
+      - INGESTOR_DATABASE_SCHEMA=app
+      - INGESTOR_DATABASE_TABLE=fibonacci
+      - INGESTOR_RABBITMQ_USERNAME=guest
+      - INGESTOR_RABBITMQ_PASSWORD=guest
+      - INGESTOR_RABBITMQ_HOST=rabbitmq
+      - INGESTOR_RABBITMQ_QUEUE=fibonacci_queue
   generator:
     image: abirek-optimo-development:1.0
     depends_on:
       - "rabbitmq"
-    command: dockerize -wait tcp://rabbitmq:5672 -timeout 60s python run.py startgenerator --delay 10
+    command: dockerize -wait tcp://rabbitmq:5672 -timeout 60s python run.py startgenerator
+    environment:
+      - GENERATOR_DELAY=10
+      - GENERATOR_RABBITMQ_USERNAME=guest
+      - GENERATOR_RABBITMQ_PASSWORD=guest
+      - GENERATOR_RABBITMQ_HOST=rabbitmq
+      - GENERATOR_RABBITMQ_QUEUE=fibonacci_queue

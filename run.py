@@ -1,30 +1,33 @@
 import click
 # from gunicorn.app.base import Application
-
-from modules.api import app
+from configs.api import ApiConfig
+from configs.generator import GeneratorConfig
+from configs.ingestor import IngestorConfig
+from modules.api import create_app
 from modules.generator import FibonacciGenerator
 from modules.ingestor import Ingestor
 
 
 @click.command()
-@click.option('--delay', default=60, help='')
-def startgenerator(delay):
+def startgenerator():
     click.echo('Starting generator')
-    FibonacciGenerator(delay).run()
+    config = GeneratorConfig()
+    FibonacciGenerator(config).run()
 
 
 @click.command()
 def startingestor():
     click.echo('Starting ingestor')
-    Ingestor().run()
+    config = IngestorConfig()
+    Ingestor(config).run()
 
 
 @click.command()
-@click.option('--host', default="0.0.0.0", help='')
-@click.option('--port', default=5000, help='')
-def startapi(host, port):
+def startapi():
     click.echo('Starting REST API')
-    app.run(host=host, port=port)
+    config = ApiConfig()
+    app = create_app(config)
+    app.run(host="0.0.0.0", port=config.port)
     # Application().run(app)
 
 

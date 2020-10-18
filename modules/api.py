@@ -2,25 +2,29 @@ from flask import Flask
 from flask_restful import Resource, Api
 from flaskext.mysql import MySQL
 
-app = Flask(__name__)
-
-app.config['MYSQL_DATABASE_HOST'] = 'mysql'
-app.config['MYSQL_DATABASE_PORT'] = 3306
-app.config['MYSQL_DATABASE_USER'] = 'app_user'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'password'
-app.config['MYSQL_DATABASE_DB'] = 'app'
-
-db = MySQL(app)
-api = Api(app)
+from configs.base import Config
 
 
-class ListFibonacciNumbers(Resource):
-    def get(self):
-        cursor = db.get_db().cursor()
-        cursor.execute('SELECT * FROM app.fibonacci')
-        results = cursor.fetchall()
-        cursor.close()
-        return {'results': tuple((v[1] for v in results))}
+def create_app(config: Config):
+    app = Flask(__name__)
 
+    app.config['MYSQL_DATABASE_HOST'] = config.database_host
+    app.config['MYSQL_DATABASE_PORT'] = config.database_port
+    app.config['MYSQL_DATABASE_USER'] = config.database_username
+    app.config['MYSQL_DATABASE_PASSWORD'] = config.database_password
+    app.config['MYSQL_DATABASE_DB'] = config.database_schema
 
-api.add_resource(ListFibonacciNumbers, '/numbers')
+    db = MySQL(app)
+    api = Api(app)
+
+    class ListFibonacciNumbers(Resource):
+        def get(self):
+            cursor = db.get_db().cursor()
+            cursor.execute(f'SELECT * FROM {config.database_schema}.{config.database_table}')
+            results = cursor.fetchall()
+            cursor.close()
+            return {'results': tuple((v[1] for v in results))}
+
+    api.add_resource(ListFibonacciNumbers, '/numbers')
+
+    return app
