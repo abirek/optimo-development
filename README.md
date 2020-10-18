@@ -7,8 +7,8 @@ You can do it by executing the following *docker* command:
 `docker build . --tag abirek-optimo-development:1.0`
 
 The output image name and tag will be *abirek-optimo-development:1.0*.
-You can change it but then you need to change it in the *docker-compose.yaml* file 
-in *api*, *ingest* and *generator* sections as well.
+You can change it but then you need to change it also in the *docker-compose.yaml* file 
+in *api*, *ingest* and *generator* sections.
 
 After the image is successfully built you can start the microservice by executing
 the following *docker* command:
