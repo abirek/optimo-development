@@ -1,4 +1,4 @@
-# optimo-development
+# Optimo Development Microservice
 
 
 To run the microservice you first need to build image of the current code repository.
