@@ -23,7 +23,7 @@ by sending a HTTP GET request to the endpoint:
 
 for example using the *curl* tool.
 
-By default fibonacci numbers are generated every 30 seconds. 
+By default Fibonacci numbers are generated every 30 seconds. 
 You can change it by setting a different value of the GENERATOR_DELAY environment variable
 in *generator* section of *docker-compose.yaml* file.
 
