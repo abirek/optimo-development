@@ -6,7 +6,6 @@ from configs.base import Config
 class ApiConfig(Config):
     def __init__(self):
         self.ensure_value_set('API_PORT')
-
         self.ensure_value_set('API_DATABASE_USERNAME')
         self.ensure_value_set('API_DATABASE_PASSWORD')
         self.ensure_value_set('API_DATABASE_HOST')
@@ -14,7 +13,6 @@ class ApiConfig(Config):
         self.ensure_value_set('API_DATABASE_TABLE')
 
         self.port = int(os.getenv('API_PORT'))
-
         self.database_username = os.getenv('API_DATABASE_USERNAME')
         self.database_password = os.getenv('API_DATABASE_PASSWORD')
         self.database_schema = os.getenv('API_DATABASE_SCHEMA')

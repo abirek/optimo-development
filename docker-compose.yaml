@@ -61,7 +61,7 @@ services:
       - "rabbitmq"
     command: dockerize -wait tcp://rabbitmq:5672 -timeout 60s python run.py startgenerator
     environment:
-      - GENERATOR_DELAY=10
+      - GENERATOR_DELAY=30
       - GENERATOR_RABBITMQ_USERNAME=guest
       - GENERATOR_RABBITMQ_PASSWORD=guest
       - GENERATOR_RABBITMQ_HOST=rabbitmq

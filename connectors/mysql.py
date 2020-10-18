@@ -1,7 +1,4 @@
-from typing import Optional
-
-from sqlalchemy import create_engine
-from sqlalchemy.engine import Engine
+from databases import Database
 
 
 class MySQLConnector:
@@ -16,7 +13,6 @@ class MySQLConnector:
         self.__host: str = host
         self.__port: int = port
         self.__schema: str = schema
-        self.engine: Optional[Engine] = None
 
     def get_engine(self):
-        return create_engine(f'mysql+mysqldb://{self.__username}:{self.__password}@{self.__host}:{self.__port}/{self.__schema}')
+        return Database(f'mysql://{self.__username}:{self.__password}@{self.__host}:{self.__port}/{self.__schema}')
