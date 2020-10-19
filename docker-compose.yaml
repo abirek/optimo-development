@@ -2,8 +2,6 @@ version: "3"
 services:
   mysql:
     image: mysql:8.0
-    ports:
-      - "3306:3306"
     command: --init-file /data/application/init.sql
     volumes:
       - ./init.sql:/data/application/init.sql
@@ -15,7 +13,6 @@ services:
   rabbitmq:
     image: rabbitmq:3.8-management-alpine
     ports:
-      - "5672:5672"
       - "15672:15672"
     volumes:
     - ./rabbitmq_definitions.json:/opt/definitions.json:ro

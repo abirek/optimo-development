@@ -23,10 +23,6 @@ by sending a HTTP GET request to the endpoint:
 
 for example using the *curl* tool.
 
-By default Fibonacci numbers are generated every 30 seconds. 
-You can change it by setting a different value of the GENERATOR_DELAY environment variable
-in *generator* section of *docker-compose.yaml* file.
-
 If you want to stop the microservice just execute:
 
 `docker-compose stop`
@@ -34,3 +30,13 @@ If you want to stop the microservice just execute:
 To start the microservice once again execute
 
 `docker-compose start`
+
+and then the generation of Fibonacci numbers starts from scratch.
+
+By default Fibonacci numbers are generated every 30 seconds. 
+You can change it by setting a different value of the GENERATOR_DELAY environment variable
+in *generator* section of *docker-compose.yaml* file but then you need to recreate microservice
+by executing:
+
+`docker-compose down && docker-compose up -d`
+
